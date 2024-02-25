@@ -1,0 +1,5 @@
+namespace stack {
+    class Stack {
+
+    };
+};
