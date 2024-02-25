@@ -4,6 +4,9 @@ EXEC_SRCS = stack/test.cpp
 BUILD_DIR ?= build
 SRC_DIRS ?= stack
 
+CXXFLAGS += -std=c++23 -Wall -Wextra -g3 -O0 -fsanitize=undefined,address
+LDFLAGS += -fsanitize=undefined,address
+
 # -------------------- Internal variables --------------------
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)

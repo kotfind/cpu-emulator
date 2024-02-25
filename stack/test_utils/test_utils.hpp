@@ -28,16 +28,19 @@ class Tester {
             : EXIT_FAILURE; \
     }
 
+#define FAIL return false;
+#define PASS return true;
+
 #define TEST(test_name) \
     tester.run_test( \
         #test_name, \
         []() {
 
 #define ENDTEST \
-            return true; \
+            PASS \
         } \
     );
 
-#define ASSERT(x) if (!(x)) { return false; } else {}
+#define ASSERT(x) if (!(x)) { FAIL } else {}
 
 #define ASSERT_EQ(x, y) ASSERT((x) == (y))
