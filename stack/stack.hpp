@@ -11,6 +11,13 @@ namespace stack {
             }
     };
 
+    class StackIndexOverflowException : public std::exception {
+        public:
+            const char* what() {
+                return "the size of stack is less than index";
+            }
+    };
+
     class StackMovedException : public std::exception {
         public:
             const char* what() {
@@ -95,6 +102,14 @@ namespace stack {
                     throw EmptyStackException();
                 }
                 return data[size - 1];
+            }
+
+            DataT& nth(size_t i) const {
+                check_if_moved();
+                if (i < size) {
+                    return data[size - 1 - i];
+                }
+                throw StackIndexOverflowException();
             }
 
             bool is_empty() const {

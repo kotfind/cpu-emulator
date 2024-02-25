@@ -115,6 +115,25 @@ TESTING_BEGIN
         ASSERT(s.is_empty());
     ENDTEST
 
+    TEST(nth)
+        Stack s;
+        for (int i = 1; i <= 4; ++i) {
+            s.push(i);
+        }
+
+        for (int i = 1; i <= 4; ++i) {
+            ASSERT_EQ(s.nth(4 - i), i);
+        }
+
+        try {
+            s.nth(4);
+            FAIL
+        } catch(const stack::StackIndexOverflowException&) {
+        } catch(...) {
+            FAIL
+        }
+    ENDTEST
+
     TEST(is_empty)
         Stack s;
         ASSERT(s.is_empty());
