@@ -1,13 +1,27 @@
+.PHONY: default
+default: all
+
 # -------------------- Config --------------------
 EXEC_SRCS = stack/test.cpp
 
 BUILD_DIR ?= build
 SRC_DIRS ?= stack
 
-CXXFLAGS += -std=c++23 -Wall -Wextra -g3 -O0 -fsanitize=undefined,address
-LDFLAGS += -fsanitize=undefined,address
+BUILD_TYPE ?= Release
 
-# -------------------- Internal variables --------------------
+CXXFLAGS += -std=c++23
+
+ifeq ($(BUILD_TYPE),Debug)
+	CXXFLAGS += -Wall -Wextra -g3 -O0 -fsanitize=undefined,address
+	LDFLAGS += -fsanitize=undefined,address
+endif
+
+.PHONY: test
+test: $(BUILD_DIR)/stack/test
+	@echo Running tests...
+	@$(BUILD_DIR)/stack/test
+
+# -------------------- Internal Variables --------------------
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(SRCS:%.cpp=$(BUILD_DIR)/%.d)
@@ -22,12 +36,13 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS += $(INC_FLAGS) -MMD -MP
 
 # -------------------- Targets --------------------
-.PHONY: default
-default: $(EXECS)
+.PHONY: all
+all: $(EXECS)
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)
+	@echo Cleaning..
+	@rm -rf $(BUILD_DIR)
 
 # Recompile when flags change
 .PHONY: flags
@@ -58,9 +73,3 @@ $(BUILD_DIR)/%.o: %.cpp $(CPPFLAGS_FILE) $(CXXFLAGS_FILE)
 
 # Add header dependencies
 -include $(DEPS)
-
-# -------------------- User Defined Targets --------------------
-.PHONY: test
-test: $(BUILD_DIR)/stack/test
-	@echo Running tests...
-	@$(BUILD_DIR)/stack/test
