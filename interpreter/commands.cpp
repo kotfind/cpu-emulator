@@ -48,19 +48,27 @@ void POPRCommand::exec(State& state) const {
 }
 
 void ADDCommand::exec(State& state) const {
-    state.stack.push(state.stack.pop() + state.stack.pop());
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    state.stack.push(lhs + rhs);
 }
 
 void SUBCommand::exec(State& state) const {
-    state.stack.push(state.stack.pop() - state.stack.pop());
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    state.stack.push(lhs - rhs);
 }
 
 void MULCommand::exec(State& state) const {
-    state.stack.push(state.stack.pop() * state.stack.pop());
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    state.stack.push(lhs * rhs);
 }
 
 void DIVCommand::exec(State& state) const {
-    state.stack.push(state.stack.pop() / state.stack.pop());
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    state.stack.push(lhs / rhs);
 }
 
 void OUTCommand::exec(State& state) const {
@@ -73,42 +81,59 @@ void INCommand::exec(State& state) const {
     state.stack.push(x);
 }
 
+void DUPCommand::exec(State& state) const {
+    auto v = state.stack.top();
+    state.stack.push(v);
+}
+
 void JMPCommand::exec(State& state) const {
     state.registers.pc_register = state.labels.at(label);
 }
 
 void JEQCommand::exec(State& state) const {
-    if (state.stack.pop() == state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs == rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }
 
 void JNECommand::exec(State& state) const {
-    if (state.stack.pop() != state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs != rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }
 
 void JACommand::exec(State& state) const {
-    if (state.stack.pop() > state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs > rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }
 
 void JAECommand::exec(State& state) const {
-    if (state.stack.pop() >= state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs >= rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }
 
 void JBCommand::exec(State& state) const {
-    if (state.stack.pop() < state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs < rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }
 
 void JBECommand::exec(State& state) const {
-    if (state.stack.pop() <= state.stack.pop()) {
+    auto rhs = state.stack.pop();
+    auto lhs = state.stack.pop();
+    if (lhs <= rhs) {
         state.registers.pc_register = state.labels.at(label);
     }
 }

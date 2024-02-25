@@ -1,13 +1,9 @@
 PUSH 0
 POPR ax
 
-forbegin:
-PUSHR ax
-OUT
-PUSHR ax
-PUSH 1
-ADD
-POPR ax
-PUSHR ax
-PUSH 10
-JA forbegin
+for:
+    PUSHR ax
+    DUP OUT
+    PUSH 1 ADD
+    DUP POPR ax
+    PUSH 10 JB for
