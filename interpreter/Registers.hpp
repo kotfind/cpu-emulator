@@ -8,7 +8,7 @@ class UndefinedRegisterException : public std::exception {
     public:
         UndefinedRegisterException(const std::string& reg_name);
 
-        const char* what();
+        const char* what() const noexcept override;
 
     private:
         std::string error_msg;

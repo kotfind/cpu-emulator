@@ -17,7 +17,7 @@ WrongCommandArgsException::WrongCommandArgsException(
     }
 }
 
-const char* WrongCommandArgsException::what() {
+const char* WrongCommandArgsException::what() const noexcept {
     return error_msg.c_str();
 }
 

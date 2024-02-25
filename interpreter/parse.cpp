@@ -186,6 +186,6 @@ ParseException::ParseException(const char* note) {
     }
 }
 
-const char* ParseException::what() {
+const char* ParseException::what() const noexcept {
     return error_msg.c_str();
 }

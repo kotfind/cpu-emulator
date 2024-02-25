@@ -11,7 +11,7 @@ class ParseException : public std::exception {
     public:
         ParseException(const char* note);
 
-        const char* what();
+        const char* what() const noexcept override;
 
     private:
         std::string error_msg;

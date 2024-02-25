@@ -7,7 +7,7 @@ UndefinedRegisterException::UndefinedRegisterException(const std::string& reg_na
     error_msg += reg_name;
 }
 
-const char* UndefinedRegisterException::what() {
+const char* UndefinedRegisterException::what() const noexcept {
     return error_msg.c_str();
 }
 

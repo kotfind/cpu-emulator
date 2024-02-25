@@ -15,7 +15,7 @@ class WrongCommandArgsException : public std::exception {
     public:
         WrongCommandArgsException(const std::string& command_name, const std::vector<std::string>& args);
 
-        const char* what();
+        const char* what() const noexcept override;
 
     private:
         std::string error_msg;
