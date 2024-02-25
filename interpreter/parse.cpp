@@ -31,6 +31,33 @@ bool parse_ws(const char** s) {
     return true;
 }
 
+bool parse_comment(const char** s) {
+    if (!parse_symbol(s, ';')) {
+        return false;
+    }
+
+    while (**s != 0 && **s != '\n') {
+        ++*s;
+    }
+
+    return true;
+}
+
+// parses comments and whitespaces
+bool parse_cws(const char** s) {
+    bool parsed_any = false;
+
+    if (parse_ws(s)) {
+        parsed_any = true;
+    }
+    while (parse_comment(s)) {
+        parsed_any = true;
+        parse_ws(s);
+    }
+
+    return parsed_any;
+}
+
 bool parse_alpha(const char** s, char* c) {
     if (!isalpha(**s)) {
         return false;
@@ -154,10 +181,10 @@ bool parse_command(const char** s, Command** command) {
     }
     std::vector<std::string> args;
     std::string arg;
-    parse_ws(s);
+    parse_cws(s);
     while (parse_command_arg(s, &arg)) {
         args.push_back(arg);
-        parse_ws(s);
+        parse_cws(s);
     }
 
     if (command_create_functions.count(command_name)) {
@@ -176,7 +203,7 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
     const char** s = &data;
     Command* command;
     std::string label;
-    parse_ws(s);
+    parse_cws(s);
     while (!parse_eof(s)) {
         if (parse_label(s, &label)) {
             if (labels.count(label)) {
@@ -188,7 +215,7 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
         } else {
             throw ParseException("EOF expected");
         }
-        parse_ws(s);
+        parse_cws(s);
     }
 
     return {code, labels};
