@@ -160,8 +160,12 @@ bool parse_command(const char** s, Command** command) {
         parse_ws(s);
     }
 
-    *command = command_create_functions.at(command_name)(args);
-    return true;
+    if (command_create_functions.count(command_name)) {
+        *command = command_create_functions.at(command_name)(args);
+        return true;
+    } else {
+        throw ParseException(("undefined command: " + command_name).c_str());
+    }
 }
 
 std::pair<Code, Labels> parse_code_file(const std::string& str) {
@@ -175,6 +179,9 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
     parse_ws(s);
     while (!parse_eof(s)) {
         if (parse_label(s, &label)) {
+            if (labels.count(label)) {
+                throw ParseException(("redefenition of label: " + label).c_str());
+            }
             labels[label] = code.size();
         } else if (parse_command(s, &command)) {
             code.push_back(command);
@@ -190,7 +197,7 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
 ParseException::ParseException(const char* note) {
     error_msg += "couldn't parse";
     if (strlen(note) != 0) {
-        error_msg += ":";
+        error_msg += ": ";
         error_msg += note;
     }
 }

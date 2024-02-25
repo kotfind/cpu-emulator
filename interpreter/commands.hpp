@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Command.hpp"
-#include "interpreter/Registers.hpp"
-#include "interpreter/commands_defines.hpp"
+#include "Registers.hpp"
+#include "commands_defines.hpp"
 
 #include <exception>
 #include <functional>
