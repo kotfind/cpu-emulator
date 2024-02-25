@@ -64,7 +64,7 @@ void DIVCommand::exec(State& state) const {
 }
 
 void OUTCommand::exec(State& state) const {
-    std::cout << state.stack.top() << std::endl;
+    std::cout << state.stack.pop() << std::endl;
 }
 
 void INCommand::exec(State& state) const {
