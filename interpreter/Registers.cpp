@@ -14,17 +14,18 @@ const char* UndefinedRegisterException::what() const noexcept {
 // -------------------- RegisterName --------------------
 
 RegisterName::RegisterName(const std::string& reg) {
-    if (reg == "PC") {
+    if (reg == "pc") {
         pc_register = true;
         return;
     }
 
-    if (reg.length() == 2 && reg[1] == 'X') {
-        int idx = reg[0] - 'A';
+    if (reg.length() == 2 && reg[1] == 'x') {
+        int idx = reg[0] - 'a';
         if (idx >= 0 && idx < Registers::REGISTERS_NUMBER) {
             pc_register = false;
             reg_num = idx;
         }
+        return;
     }
 
     throw UndefinedRegisterException(reg);

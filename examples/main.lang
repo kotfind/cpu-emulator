@@ -1,4 +1,13 @@
-PUSH 1
-PUSH 2
-ADD
+PUSH 0
+POPR ax
+
+forbegin:
+PUSHR ax
 OUT
+PUSHR ax
+PUSH 1
+ADD
+POPR ax
+PUSHR ax
+PUSH 10
+JA forbegin

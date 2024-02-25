@@ -5,6 +5,7 @@
 
 #include <cctype>
 #include <cstring>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -67,7 +68,7 @@ bool parse_digit(const char** s, int* d) {
 }
 
 bool parse_int(const char** s, int* n) {
-    const char** initial = s;
+    const char* initial = *s;
 
     int sgn = 1;
     if (parse_symbol(s, '-')) {
@@ -77,7 +78,7 @@ bool parse_int(const char** s, int* n) {
 
     int d;
     if (!parse_digit(s, &d)) {
-        s = initial;
+        *s = initial;
         return false;
     }
 
@@ -104,10 +105,10 @@ bool parse_lower_string(const char** s, std::string* str) {
 }
 
 bool parse_label(const char** s, std::string* label_) {
-    const char** initial = s;
+    const char* initial = *s;
     std::string label;
     if (!parse_lower_string(s, &label) || !parse_symbol(s, ':')) {
-        s = initial;
+        *s = initial;
         return false;
     }
     *label_ = label;
@@ -128,13 +129,22 @@ bool parse_command_name(const char** s, std::string* command_name) {
 }
 
 bool parse_command_arg(const char** s, std::string* arg) {
+    const char* initial = *s;
+
     int int_arg;
     if (parse_int(s, &int_arg)) {
         *arg = std::to_string(int_arg);
         return true;
     }
 
-    return parse_lower_string(s, arg);
+    std::string str;
+    if (!parse_lower_string(s, &str) || parse_symbol(s, ':')) {
+        *s = initial;
+        return false;
+    }
+
+    *arg = str;
+    return true;
 }
 
 bool parse_command(const char** s, Command** command) {
@@ -142,7 +152,6 @@ bool parse_command(const char** s, Command** command) {
     if (!parse_command_name(s, &command_name)) {
         return false;
     }
-
     std::vector<std::string> args;
     std::string arg;
     parse_ws(s);
