@@ -2,12 +2,12 @@
 default: all
 
 # -------------------- Config --------------------
-EXEC_SRCS = stack/test.cpp
-
-BUILD_DIR ?= build
-SRC_DIRS ?= stack
-
 BUILD_TYPE ?= Release
+BUILD_DIR ?= build
+
+SRC_DIRS := stack interpreter
+INC_DIRS := .
+EXEC_SRCS := stack/test.cpp interpreter/main.cpp
 
 CXXFLAGS += -std=c++23
 
@@ -21,6 +21,11 @@ test: $(BUILD_DIR)/stack/test
 	@echo Running tests...
 	@$(BUILD_DIR)/stack/test
 
+.PHONY: interpreter 
+run: $(BUILD_DIR)/interpreter/interpreter
+	@echo Running interpreter with args = $(ARGS)...
+	@$(BUILD_DIR)/interpreter/interpreter $(ARGS)
+
 # -------------------- Internal Variables --------------------
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
@@ -30,7 +35,7 @@ EXEC_OBJS := $(EXEC_SRCS:%.cpp=$(BUILD_DIR)/%.o)
 NO_EXEC_OBJS := $(filter-out $(EXEC_OBJS),$(OBJS))
 EXECS := $(EXEC_SRCS:%.cpp=$(BUILD_DIR)/%)
 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+# INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 CPPFLAGS += $(INC_FLAGS) -MMD -MP
