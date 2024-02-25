@@ -7,7 +7,7 @@ BUILD_DIR ?= build
 
 SRC_DIRS := stack interpreter
 INC_DIRS := .
-EXEC_SRCS := stack/test.cpp interpreter/main.cpp
+EXEC_SRCS := stack/test.cpp interpreter/interpreter.cpp
 
 CXXFLAGS += -std=c++23
 
@@ -22,8 +22,8 @@ test: $(BUILD_DIR)/stack/test
 	@$(BUILD_DIR)/stack/test
 
 .PHONY: interpreter 
-run: $(BUILD_DIR)/interpreter/interpreter
-	@echo Running interpreter with args = $(ARGS)...
+interpreter: $(BUILD_DIR)/interpreter/interpreter
+	@echo Running interpreter with args: $(ARGS)
 	@$(BUILD_DIR)/interpreter/interpreter $(ARGS)
 
 # -------------------- Internal Variables --------------------

@@ -37,7 +37,6 @@ class Registers {
         int& operator[](const RegisterName& reg_name);
         int operator[](const RegisterName& reg_name) const;
 
-    private:
         static constexpr size_t REGISTERS_NUMBER = 4;
         static_assert(REGISTERS_NUMBER <= 26);
 

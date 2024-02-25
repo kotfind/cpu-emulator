@@ -1,10 +1,10 @@
 #pragma once
 
-#include "State.hpp"
+class State;
 
 class Command {
     public:
         virtual ~Command() {}
 
-        virtual void exec(State& state) const = 0;
+        virtual void exec(State&) const = 0;
 };

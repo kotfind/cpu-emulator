@@ -3,9 +3,10 @@
 #define NO_ARG_COMMAND(name) \
     class name##Command : public Command { \
         public: \
+            name##Command() {} \
             ~name##Command() {} \
                                 \
-            void exec(State& state) const override; \
+            void exec(State&) const override; \
                                                     \
             static Command* create(const std::vector<std::string>& args) { \
                 if (args.size() != 0) { \
@@ -14,17 +15,15 @@
                   \
                 return new name##Command(); \
             } \
-              \
-        private: \
-            name##Command() {} \
     };
 
 #define INT_ARG_COMMAND(name) \
     class name##Command : public Command { \
         public: \
+            name##Command(int value) : value(value) {} \
             ~name##Command() {} \
                                 \
-            void exec(State& state) const override; \
+            void exec(State&) const override; \
                                                     \
             static Command* create(const std::vector<std::string>& args) { \
                 if (args.size() != 1) { \
@@ -42,17 +41,16 @@
             } \
               \
         private: \
-            name##Command(int value) : value(value) {} \
-                                                     \
             int value; \
     };
 
 #define REG_ARG_COMMAND(name) \
     class name##Command : public Command { \
         public: \
+            name##Command(const RegisterName& reg) : reg(reg) {} \
             ~name##Command() {} \
                                 \
-            void exec(State& state) const override; \
+            void exec(State&) const override; \
                                                     \
             static Command* create(const std::vector<std::string>& args) { \
                 if (args.size() != 1) { \
@@ -63,16 +61,16 @@
             } \
               \
         private: \
-            name##Command(const RegisterName& reg) : reg(reg) {} \
             RegisterName reg; \
     };
 
 #define LABEL_ARG_COMMAND(name) \
     class name##Command : public Command { \
         public: \
+            name##Command(const std::string& label) : label(label) {} \
             ~name##Command() {} \
                                 \
-            void exec(State& state) const override; \
+            void exec(State&) const override; \
                                                     \
             static Command* create(const std::vector<std::string>& args) { \
                 if (args.size() != 1) { \
@@ -83,7 +81,6 @@
             } \
               \
         private: \
-            name##Command(const std::string& label) : label(label) {} \
             std::string label; \
     };
 
