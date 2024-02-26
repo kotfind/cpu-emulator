@@ -77,6 +77,15 @@ bool parse_lower(const char** s, char* c) {
     return true;
 }
 
+bool parse_lower_or_underscore(const char** s, char* c) {
+    if (!islower(**s) && **s != '_') {
+        return false;
+    }
+    *c = **s;
+    ++*s;
+    return true;
+}
+
 bool parse_upper(const char** s, char* c) {
     if (!isupper(**s)) {
         return false;
@@ -118,15 +127,15 @@ bool parse_int(const char** s, int* n) {
     return true;
 }
 
-bool parse_lower_string(const char** s, std::string* str) {
+bool parse_lower_or_underscore_string(const char** s, std::string* str) {
     char c;
-    if (!parse_lower(s, &c)) {
+    if (!parse_lower_or_underscore(s, &c)) {
         return false;
     }
 
     *str = "";
     str->push_back(c);
-    while (parse_lower(s, &c)) {
+    while (parse_lower_or_underscore(s, &c)) {
         str->push_back(c);
     }
     return true;
@@ -135,7 +144,7 @@ bool parse_lower_string(const char** s, std::string* str) {
 bool parse_label_name(const char** s, LabelName* label_) {
     const char* initial = *s;
     std::string label;
-    if (!parse_lower_string(s, &label) || !parse_symbol(s, ':')) {
+    if (!parse_lower_or_underscore_string(s, &label) || !parse_symbol(s, ':')) {
         *s = initial;
         return false;
     }
@@ -166,7 +175,7 @@ bool parse_command_arg(const char** s, std::string* arg) {
     }
 
     std::string str;
-    if (!parse_lower_string(s, &str) || parse_symbol(s, ':')) {
+    if (!parse_lower_or_underscore_string(s, &str) || parse_symbol(s, ':')) {
         *s = initial;
         return false;
     }
