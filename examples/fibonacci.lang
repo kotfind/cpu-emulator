@@ -1,0 +1,34 @@
+; last two fib numbers are in ax and bx
+PUSH 0
+DUP OUT
+POPR ax 
+
+PUSH 1
+DUP OUT
+POPR bx
+
+; cx is counter
+PUSH 2 POPR cx
+
+for:
+; condition
+    PUSHR cx
+    PUSH 40
+    JAE endfor
+
+; body
+    PUSHR bx
+    DUP
+    PUSHR ax
+    ADD
+    DUP OUT
+    POPR bx
+    POPR ax
+
+; increment
+    PUSHR cx
+    PUSH 1
+    ADD
+    POPR cx
+    JMP for
+endfor:
