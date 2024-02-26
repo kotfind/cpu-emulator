@@ -46,5 +46,7 @@ class Labels {
 
         size_t operator[](const LabelName& label) const;
 
+        bool contains(const LabelName& label) const;
+
         std::unordered_map<std::string, size_t> labels;
 };

@@ -209,11 +209,20 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
         if (parse_label_name(s, &label)) {
             labels.insert(label, code.size());
         } else if (parse_command(s, &command)) {
-            code.push_back(command);
+            if (dynamic_cast<BEGINCommand*>(command)) {
+                labels.insert(LabelName::BEGIN_LABEL, code.size());
+                delete command;
+            } else {
+                code.push_back(command);
+            }
         } else {
             throw ParseException("EOF expected");
         }
         parse_cws(s);
+    }
+
+    if (!labels.contains(LabelName::BEGIN_LABEL)) {
+        labels.insert(LabelName::BEGIN_LABEL, 0);
     }
 
     return {code, labels};

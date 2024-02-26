@@ -1,6 +1,7 @@
-CALL one
-END
-
 one: PUSH 1 OUT RET
 two: PUSH 2 OUT RET
 three: PUSH 3 OUT RET
+
+BEGIN
+CALL one
+END
