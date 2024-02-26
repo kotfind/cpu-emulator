@@ -1,9 +1,6 @@
-PUSH 0
-POPR ax
+CALL one
+END
 
-for:
-    PUSHR ax
-    DUP OUT
-    PUSH 1 ADD
-    DUP POPR ax
-    PUSH 10 JB for
+one: PUSH 1 OUT RET
+two: PUSH 2 OUT RET
+three: PUSH 3 OUT RET

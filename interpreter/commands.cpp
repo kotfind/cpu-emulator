@@ -139,7 +139,7 @@ void JBECommand::exec(State& state) const {
 }
 
 void CALLCommand::exec(State& state) const {
-    state.call_stack.push(state.registers.pc_register + 1);
+    state.call_stack.push(state.registers.pc_register);
     state.registers.pc_register = state.labels.at(label);
 }
 
