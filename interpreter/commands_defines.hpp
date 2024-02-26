@@ -67,7 +67,7 @@
 #define LABEL_ARG_COMMAND(name) \
     class name##Command : public Command { \
         public: \
-            name##Command(const std::string& label) : label(label) {} \
+            name##Command(const LabelName& label) : label(label) {} \
             ~name##Command() {} \
                                 \
             void exec(State&) const override; \
@@ -77,11 +77,11 @@
                     throw WrongCommandArgsException(#name, args); \
                 } \
                   \
-                return new name##Command(args[0]); \
+                return new name##Command(LabelName(args[0])); \
             } \
               \
         private: \
-            std::string label; \
+            LabelName label; \
     };
 
 #define COMMAND_CREATE_FUNCTION(name) name##Command::create

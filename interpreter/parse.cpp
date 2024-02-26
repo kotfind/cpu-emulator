@@ -2,6 +2,7 @@
 #include "State.hpp"
 #include "Command.hpp"
 #include "commands.hpp"
+#include "Labels.hpp"
 
 #include <cctype>
 #include <cstring>
@@ -131,14 +132,14 @@ bool parse_lower_string(const char** s, std::string* str) {
     return true;
 }
 
-bool parse_label(const char** s, std::string* label_) {
+bool parse_label_name(const char** s, LabelName* label_) {
     const char* initial = *s;
     std::string label;
     if (!parse_lower_string(s, &label) || !parse_symbol(s, ':')) {
         *s = initial;
         return false;
     }
-    *label_ = label;
+    *label_ = LabelName(label);
     return true;
 }
 
@@ -202,14 +203,11 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
     const char* data = str.c_str();
     const char** s = &data;
     Command* command;
-    std::string label;
+    LabelName label("");
     parse_cws(s);
     while (!parse_eof(s)) {
-        if (parse_label(s, &label)) {
-            if (labels.count(label)) {
-                throw ParseException(("redefenition of label: " + label).c_str());
-            }
-            labels[label] = code.size();
+        if (parse_label_name(s, &label)) {
+            labels.insert(label, code.size());
         } else if (parse_command(s, &command)) {
             code.push_back(command);
         } else {

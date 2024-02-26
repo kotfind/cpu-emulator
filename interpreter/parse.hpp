@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State.hpp"
+#include "Labels.hpp"
 
 #include <exception>
 #include <utility>

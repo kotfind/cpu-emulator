@@ -2,6 +2,7 @@
 
 #include "Registers.hpp"
 #include "Command.hpp"
+#include "Labels.hpp"
 
 #include "stack/stack.hpp"
 
@@ -11,7 +12,6 @@
 using Stack = stack::Stack<int>;
 using CallStack = stack::Stack<size_t>;
 using Code = std::vector<Command*>;
-using Labels = std::unordered_map<std::string, size_t>;
 
 class State {
     public:

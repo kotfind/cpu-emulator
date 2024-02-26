@@ -2,6 +2,7 @@
 
 #include "Command.hpp"
 #include "Registers.hpp"
+#include "Labels.hpp"
 #include "commands_defines.hpp"
 
 #include <exception>

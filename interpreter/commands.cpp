@@ -23,9 +23,7 @@ const char* WrongCommandArgsException::what() const noexcept {
 
 // -------------------- Commands --------------------
 
-void BEGINCommand::exec(State& state) const {
-    // TODO
-}
+void BEGINCommand::exec(State&) const {}
 
 void ENDCommand::exec(State& state) const {
     state.registers.pc_register = state.code.size();
@@ -87,14 +85,14 @@ void DUPCommand::exec(State& state) const {
 }
 
 void JMPCommand::exec(State& state) const {
-    state.registers.pc_register = state.labels.at(label);
+    state.registers.pc_register = state.labels[label];
 }
 
 void JEQCommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs == rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
@@ -102,7 +100,7 @@ void JNECommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs != rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
@@ -110,7 +108,7 @@ void JACommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs > rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
@@ -118,7 +116,7 @@ void JAECommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs >= rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
@@ -126,7 +124,7 @@ void JBCommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs < rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
@@ -134,13 +132,13 @@ void JBECommand::exec(State& state) const {
     auto rhs = state.stack.pop();
     auto lhs = state.stack.pop();
     if (lhs <= rhs) {
-        state.registers.pc_register = state.labels.at(label);
+        state.registers.pc_register = state.labels[label];
     }
 }
 
 void CALLCommand::exec(State& state) const {
     state.call_stack.push(state.registers.pc_register);
-    state.registers.pc_register = state.labels.at(label);
+    state.registers.pc_register = state.labels[label];
 }
 
 void RETCommand::exec(State& state) const {
