@@ -1,0 +1,41 @@
+; ax is counter
+IN POPR ax
+
+; overflow if ax >= 13
+PUSHR ax
+PUSH 13
+JAE die
+
+; bx is answer
+PUSH 1 POPR bx
+
+for:
+; condition
+    PUSHR ax
+    PUSH 0
+    JBE endfor
+
+; body
+    PUSHR ax
+    PUSHR bx
+    MUL
+    POPR bx
+
+; decrement
+    PUSHR ax
+    PUSH 1
+    SUB
+    POPR ax
+
+    JMP for
+endfor:
+
+PUSHR bx
+OUT
+
+END
+
+die:
+PUSH -1
+OUT
+END
