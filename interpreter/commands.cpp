@@ -28,8 +28,7 @@ const char* WrongInputException::what() const noexcept {
     return "wrong input";
 }
 
-// -------------------- Commands --------------------
-
+// -------------------- Standard Commands --------------------
 void BEGINCommand::exec(State&) const {}
 
 void ENDCommand::exec(State& state) const {
@@ -87,11 +86,6 @@ void INCommand::exec(State& state) const {
     } else {
         throw WrongInputException();
     }
-}
-
-void DUPCommand::exec(State& state) const {
-    auto v = state.stack.top();
-    state.stack.push(v);
 }
 
 void JMPCommand::exec(State& state) const {
@@ -153,4 +147,15 @@ void CALLCommand::exec(State& state) const {
 
 void RETCommand::exec(State& state) const {
     state.registers.pc_register = state.call_stack.pop();
+}
+
+// -------------------- User-defined Commands --------------------
+
+void DUPCommand::exec(State& state) const {
+    auto v = state.stack.top();
+    state.stack.push(v);
+}
+
+void ECHOCommand::exec(State&) const {
+    std::cout << text << std::endl;
 }

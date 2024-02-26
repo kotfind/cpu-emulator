@@ -1,10 +1,15 @@
 ; ax is counter
 IN POPR ax
 
+; if ax < 0
+PUSHR ax
+PUSH 0
+JB ax_less_zero
+
 ; overflow if ax >= 13
 PUSHR ax
 PUSH 13
-JAE die
+JAE ax_overflow
 
 ; bx is answer
 PUSH 1 POPR bx
@@ -35,7 +40,13 @@ OUT
 
 END
 
-die:
-PUSH -1
-OUT
+ax_overflow:
+ECHO error
+ECHO ax too big
+ECHO integer overflow
+END
+
+ax_less_zero:
+ECHO error
+ECHO ax less than zero
 END

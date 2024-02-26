@@ -1,9 +1,14 @@
 IN
 
-; check for overflow
+; if n < 0
+DUP
+PUSH 0
+JB n_less_zero
+
+; overflow if n >= 13
 DUP
 PUSH 13
-JAE die
+JAE n_overflow
 
 CALL fact
 OUT
@@ -31,7 +36,13 @@ fact:
         PUSH 1
         RET
 
-die:
-    PUSH -1
-    OUT
-    END
+n_overflow:
+ECHO error
+ECHO n too big
+ECHO integer overflow
+END
+
+n_less_zero:
+ECHO error
+ECHO n less than zero
+END
