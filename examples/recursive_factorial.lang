@@ -1,0 +1,37 @@
+IN
+
+; check for overflow
+DUP
+PUSH 13
+JAE die
+
+CALL fact
+OUT
+
+END
+
+; Calculates n!
+; args on stack: n
+; return value on stack: n!
+fact:
+    DUP
+    PUSH 1
+    JBE returnone
+
+    DUP
+    PUSH 1
+    SUB
+    CALL fact
+    MUL
+
+    RET
+
+    returnone:
+        POP
+        PUSH 1
+        RET
+
+die:
+    PUSH -1
+    OUT
+    END
