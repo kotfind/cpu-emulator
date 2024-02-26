@@ -3,30 +3,7 @@
 
 #include "commands.hpp"
 #include "State.hpp"
-
-// -------------------- WrongCommandArgsException --------------------
-
-WrongCommandArgsException::WrongCommandArgsException(
-    const std::string& command_name,
-    const std::vector<std::string>& args
-) {
-    error_msg += "wrong arguments to command ";
-    error_msg += command_name;
-    error_msg += ": ";
-    for (const auto& arg : args) {
-        error_msg += arg + " ";
-    }
-}
-
-const char* WrongCommandArgsException::what() const noexcept {
-    return error_msg.c_str();
-}
-
-// -------------------- WrongInputException --------------------
-
-const char* WrongInputException::what() const noexcept {
-    return "wrong input";
-}
+#include "Exception.hpp"
 
 // -------------------- Standard Commands --------------------
 void BEGINCommand::exec(State&) const {}

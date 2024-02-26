@@ -2,18 +2,22 @@
 
 #include "State.hpp"
 #include "Labels.hpp"
+#include "Exception.hpp"
 
-#include <exception>
 #include <utility>
 
 std::pair<Code, Labels> parse_code_file(const std::string&);
 
-class ParseException : public std::exception {
+class UndefinedCommandException : public Exception {
     public:
-        ParseException(const char* note);
+        UndefinedCommandException()
+          : Exception("undefined command")
+        {}
+};
 
-        const char* what() const noexcept override;
-
-    private:
-        std::string error_msg;
+class EOFExpectedException : public Exception {
+    public:
+        EOFExpectedException()
+          : Exception("EOF expected")
+        {}
 };

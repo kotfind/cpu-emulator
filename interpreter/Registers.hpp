@@ -1,17 +1,14 @@
 #pragma once
 
+#include "Exception.hpp"
 #include <cstddef>
-#include <exception>
 #include <string>
 
-class UndefinedRegisterException : public std::exception {
+class UndefinedRegisterException : public Exception {
     public:
-        UndefinedRegisterException(const std::string& reg_name);
-
-        const char* what() const noexcept override;
-
-    private:
-        std::string error_msg;
+        UndefinedRegisterException(const std::string& reg_name)
+          : Exception("no register called: " + reg_name)
+        {}
 };
 
 class Registers;

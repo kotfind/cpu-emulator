@@ -4,6 +4,7 @@
 #include "Registers.hpp"
 #include "Labels.hpp"
 #include "commands_defines.hpp"
+#include "Exception.hpp"
 
 #include <exception>
 #include <functional>
@@ -12,19 +13,24 @@
 #include <unordered_map>
 #include <vector>
 
-class WrongCommandArgsException : public std::exception {
+class WrongCommandArgsException : public Exception {
     public:
-        WrongCommandArgsException(const std::string& command_name, const std::vector<std::string>& args);
-
-        const char* what() const noexcept override;
-
-    private:
-        std::string error_msg;
+        WrongCommandArgsException(
+            const std::string& command_name,
+            const std::vector<std::string>& args
+        ) {
+            error_msg += "wrong arguments to command ";
+            error_msg += command_name;
+            error_msg += ": ";
+            for (const auto& arg : args) {
+                error_msg += arg + " ";
+            }
+        }
 };
 
-class WrongInputException : public std::exception {
+class WrongInputException : public Exception {
     public:
-        const char* what() const noexcept override;
+        WrongInputException() : Exception("wrong input") {}
 };
 
 // Standard commands

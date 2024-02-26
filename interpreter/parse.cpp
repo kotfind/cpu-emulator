@@ -201,7 +201,7 @@ bool parse_command(const char** s, Command** command) {
         *command = command_create_functions.at(command_name)(args);
         return true;
     } else {
-        throw ParseException(("undefined command: " + command_name).c_str());
+        throw UndefinedCommandException();
     }
 }
 
@@ -225,7 +225,7 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
                 code.push_back(command);
             }
         } else {
-            throw ParseException("EOF expected");
+            throw EOFExpectedException();
         }
         parse_cws(s);
     }
@@ -235,16 +235,4 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
     }
 
     return {code, labels};
-}
-
-ParseException::ParseException(const char* note) {
-    error_msg += "couldn't parse";
-    if (strlen(note) != 0) {
-        error_msg += ": ";
-        error_msg += note;
-    }
-}
-
-const char* ParseException::what() const noexcept {
-    return error_msg.c_str();
 }

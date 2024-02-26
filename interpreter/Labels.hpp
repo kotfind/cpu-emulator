@@ -1,27 +1,22 @@
 #pragma once
 
-#include <exception>
+#include "Exception.hpp"
+
 #include <string>
 #include <unordered_map>
 
-class UndefinedLabelException : public std::exception {
+class UndefinedLabelException : public Exception {
     public:
-        UndefinedLabelException(const std::string& label);
-
-        const char* what() const noexcept override;
-
-    private:
-        std::string error_msg;
+        UndefinedLabelException(const std::string& label)
+          : Exception("undefined label: " + label)
+        {}
 };
 
-class LabelRedefenitionException : public std::exception {
+class LabelRedefenitionException : public Exception {
     public:
-        LabelRedefenitionException(const std::string& label);
-
-        const char* what() const noexcept override;
-
-    private:
-        std::string error_msg;
+        LabelRedefenitionException(const std::string& label)
+          : Exception("label redefenition: " + label)
+        {}
 };
 
 class Labels;

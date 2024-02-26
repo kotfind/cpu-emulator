@@ -1,16 +1,5 @@
 #include "Registers.hpp"
 
-// -------------------- UndefinedRegisterException --------------------
-
-UndefinedRegisterException::UndefinedRegisterException(const std::string& reg_name) {
-    error_msg = "no register called: ";
-    error_msg += reg_name;
-}
-
-const char* UndefinedRegisterException::what() const noexcept {
-    return error_msg.c_str();
-}
-
 // -------------------- RegisterName --------------------
 
 RegisterName::RegisterName(const std::string& reg) {
