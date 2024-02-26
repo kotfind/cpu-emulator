@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 #include "commands.hpp"
 #include "State.hpp"
@@ -19,6 +20,12 @@ WrongCommandArgsException::WrongCommandArgsException(
 
 const char* WrongCommandArgsException::what() const noexcept {
     return error_msg.c_str();
+}
+
+// -------------------- WrongInputException --------------------
+
+const char* WrongInputException::what() const noexcept {
+    return "wrong input";
 }
 
 // -------------------- Commands --------------------
@@ -74,9 +81,12 @@ void OUTCommand::exec(State& state) const {
 }
 
 void INCommand::exec(State& state) const {
-    int x;
-    std::cin >> x;
-    state.stack.push(x);
+    int value;
+    if (std::cin >> value) {
+        state.stack.push(value);
+    } else {
+        throw WrongInputException();
+    }
 }
 
 void DUPCommand::exec(State& state) const {

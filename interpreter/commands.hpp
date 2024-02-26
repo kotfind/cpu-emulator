@@ -22,6 +22,11 @@ class WrongCommandArgsException : public std::exception {
         std::string error_msg;
 };
 
+class WrongInputException : public std::exception {
+    public:
+        const char* what() const noexcept override;
+};
+
 NO_ARG_COMMAND(BEGIN)
 NO_ARG_COMMAND(END)
 INT_ARG_COMMAND(PUSH)
