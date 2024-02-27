@@ -184,6 +184,7 @@ bool parse_command_arg(const char** s, std::string* arg) {
     return true;
 }
 
+// sets *command to nullptr if command is BEGIN
 bool parse_command(const char** s, Command** command) {
     std::string command_name;
     if (!parse_command_name(s, &command_name)) {
@@ -197,7 +198,14 @@ bool parse_command(const char** s, Command** command) {
         parse_cws(s);
     }
 
-    if (command_create_functions.count(command_name)) {
+    if (command_name == "BEGIN") {
+        if (args.size() == 0) {
+            *command = nullptr;
+            return true;
+        } else {
+            throw WrongCommandArgsException(command_name, args);
+        }
+    } else if (command_create_functions.count(command_name)) {
         *command = command_create_functions.at(command_name)(args);
         return true;
     } else {
@@ -218,7 +226,7 @@ std::pair<Code, Labels> parse_code_file(const std::string& str) {
         if (parse_label_name(s, &label)) {
             labels.insert(label, code.size());
         } else if (parse_command(s, &command)) {
-            if (dynamic_cast<BEGINCommand*>(command)) {
+            if (command == nullptr /* BEGIN command */) {
                 labels.insert(LabelName::BEGIN_LABEL, code.size());
                 delete command;
             } else {

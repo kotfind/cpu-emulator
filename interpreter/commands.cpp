@@ -6,8 +6,6 @@
 #include "Exception.hpp"
 
 // -------------------- Standard Commands --------------------
-void BEGINCommand::exec(State&) const {}
-
 void ENDCommand::exec(State& state) const {
     state.registers.pc_register = state.code.size();
 }

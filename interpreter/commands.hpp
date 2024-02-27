@@ -34,7 +34,6 @@ class WrongInputException : public Exception {
 };
 
 // Standard commands
-NO_ARG_COMMAND(BEGIN)
 NO_ARG_COMMAND(END)
 INT_ARG_COMMAND(PUSH)
 NO_ARG_COMMAND(POP)
@@ -86,7 +85,6 @@ const std::unordered_map<
     const std::function<Command*(const std::vector<std::string>&)>
 > command_create_functions = {
     // Standard commands
-    {"BEGIN", COMMAND_CREATE_FUNCTION(BEGIN)},
     {"END", COMMAND_CREATE_FUNCTION(END)},
     {"PUSH", COMMAND_CREATE_FUNCTION(PUSH)},
     {"POP", COMMAND_CREATE_FUNCTION(POP)},
